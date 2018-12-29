@@ -41,7 +41,9 @@ class Uploading extends Component {
     e.preventDefault();
     this.setState({ error: "" })
     if (this.state.image !== "") {
-      this.props.socket.emit("Uploading Image", { deadline: this.state.deadline, description: this.state.description, image: this.state.image, uploadDate: new Date() });
+      let routes = this.props.location.pathname.split("/");
+      let shop = routes[routes.length-3]
+      this.props.socket.emit("Uploading Image", { deadline: this.state.deadline, description: this.state.description, image: this.state.image, uploadDate: new Date(), shopUserName: shop});
     }
     else {
       this.setState({ error: "Please Upload An Image" })
@@ -50,7 +52,7 @@ class Uploading extends Component {
 
   componentDidMount() {
     this.props.socket.on("Uploaded Cake Image Saved", () => {
-      this.props.history.push("/CakeProviderHome")
+      this.props.history.push("/")
     })
 
     this.props.socket.on("Uploaded Cake Image Failed", () => {

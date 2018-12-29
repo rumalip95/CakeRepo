@@ -1,7 +1,8 @@
-import {LOGIN_CUSTOMER} from "../actions/index"
+import {LOGIN_CUSTOMER, SET_USER_TYPE} from "../actions/index"
 const initialState={
     email:"",
-    password:""
+    password:"",
+    type: ""
 }
 export const loginReducer=(state=initialState,action)=>{
     switch(action.type){
@@ -10,6 +11,13 @@ export const loginReducer=(state=initialState,action)=>{
                 ...state,
                 ...action.payload
             }
+
+        case SET_USER_TYPE:
+            return {
+                ...state,
+                type: action.payload
+            }
+        
         default: 
             return {
                 ...state

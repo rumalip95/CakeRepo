@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import Navbar from '../nav_bar/Navbar'
 import Footer from '../footer/Footer'
 import Link from 'react-router-dom/Link';
+import {withRouter} from "react-router-dom";
 
 class Customized extends Component {
   render() {
+
+    let paths = this.props.location.pathname.split("/");
+    let shop = paths[paths.length-2]
     return (
       <div>
       <img className="logo" src="/dependencies/pics/newlogo2.png"/>
@@ -23,7 +27,7 @@ class Customized extends Component {
               <div className="card-body">
                   <h5 className="card-title">To build your own cake</h5>
                   
-                  <Link style={{color:"#252525"}} to="/Customizing/CreateCake">
+                  <Link style={{color:"#252525"}} to={"/"+ shop + "/Customizing/CreateCake"}>
                     <a  className="btn btn-primary">Click here</a>
                   </Link>
               </div>
@@ -35,7 +39,7 @@ class Customized extends Component {
               <div className="card-body">
                   <h5 className="card-title">To upload an image</h5>
                   
-                  <Link style={{color:"#252525"}} to="/Customizing/Uploading">
+                  <Link style={{color:"#252525"}} to={"/"+ shop + "/Customizing/Uploading"}>
                     <a  className="btn btn-primary">Click here</a>
                   </Link>
               </div>
@@ -51,4 +55,4 @@ class Customized extends Component {
   }
 }
 
-export default Customized;
+export default withRouter(Customized);

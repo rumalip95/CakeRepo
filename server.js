@@ -87,16 +87,29 @@ io.on('connection', (client) => { //a new client has been connected
         UserFunctions.loadCakes(client,data)
     })
 
-    // client.on("GET_OFFTHESHELF",(data)=>{
-    //     UserFunctions.loadOffTheShelf(client,data)
-    // })
-
-    client.on("SET_ORDER",(data)=>{
+    client.on("GET_OFFTHESHELF",(data)=>{
         UserFunctions.loadOffTheShelf(client,data)
     })
 
-    client.on("GET_OFF_THE_SHELF_ORDERS",()=>{
-        UserFunctions.loadShlefOrders(client,data)
+    client.on("SET_ORDER",(data)=>{
+        UserFunctions.saveShelfCakeOrder(client,data)
+    })
+
+    //Service Provider orders
+    client.on("GET_ORDERS", ()=> {
+        if(client.type==="serviceProvider"){
+            if(client.userData){
+                CakeFunctions.getOrdersServiceProvider(client)
+            }
+        }
+    })
+
+    client.on("GET_ORDERS_USER", ()=> {
+        if(client.type==="customer"){
+            if(client.userData){
+                CakeFunctions.getOrdersClient(client);
+            }
+        }
     })
 })
 

@@ -3,7 +3,7 @@ const customerDb=require("../schemas/CustomerSchema");
 const EncryptionFunctions =require("./Encryption");
 const serviceProviderDB=require("../schemas/ServiceProviderSchema");
 const cakeProviderUploadNewCakeDB=require("../schemas/CakeProviderUploadNewCake")
-const offTheShelfCakeDB=require("../schemas/offTheShelfCake");
+const offTheShelfCakeOrderDB=require("../schemas/OffTheShelfCakeorder");
 const ex=require("../server")
 
  class UserFunctions{
@@ -32,11 +32,11 @@ const ex=require("../server")
                         console.log("User Found")
                         const hashedPassword= EncryptionFunctions.getHashedPassword({value:data.password,salt:foundData.password.salt});
                         if(hashedPassword.passwordHash===foundData.password.passwordHash){
-                            console.log("password matched")
+                            console.log("password matched service provider")
                             client.userData=foundData
                             client.type="serviceProvider"
                             client.emit("password matched",{type:"serviceProvider"})
-                            ex.addToServiceProviderArray(client)
+                            ex.addToServiceProviderArray(client);
                         }
                         
                         else{
@@ -133,8 +133,8 @@ const ex=require("../server")
         })
     }
 
-    static loadOffTheShelf(client,data){
-        let newOrder = new offTheShelfCakeDB(data);
+    static saveShelfCakeOrder(client,data){
+        let newOrder = new offTheShelfCakeOrderDB(data);
         newOrder.save().then(savedData=>{
             client.emit("ORDER_SAVE_SUCCESSFULL")
 
@@ -163,10 +163,6 @@ const ex=require("../server")
         })
 
     }
-
-
-
-
 }
 
 module.exports=UserFunctions;

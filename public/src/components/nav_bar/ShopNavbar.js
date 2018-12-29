@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Link from 'react-router-dom/Link';
 import { loginCustomer } from "../../redux/actions/LoginActions"
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import {withRouter} from "react-router-dom";
 
 
 class ShopNavbar extends Component {
@@ -40,6 +41,7 @@ class ShopNavbar extends Component {
     logout = () => {
         this.props.loginCustomer({ email: "", password: "" })
         localStorage.clear() //clearing all cookies
+        this.props.history.push("/Login")
     }
 
 
@@ -111,6 +113,11 @@ class ShopNavbar extends Component {
                             active: 'Home',
                         })}>My Orders</li>
                     </Link>
+                    {/* <Link style={{ color: "#252525" }} to="/CakeProviderHome/AcceptedOrders">
+                        <li onClick={() => this.setState({
+                            active: 'Home',
+                        })}>Accepted Orders</li>
+                    </Link> */}
 
                     
 
@@ -128,4 +135,4 @@ const mapActionsToProps = {
     loginCustomer
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(ShopNavbar);
+export default withRouter(connect(mapStateToProps, mapActionsToProps)(ShopNavbar));

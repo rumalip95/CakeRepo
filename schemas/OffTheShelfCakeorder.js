@@ -1,21 +1,19 @@
 /*####################################################################################################################
                                                 CREATED BY Rumali Perera
                                                      2018 JULY 26
-                                              Customized Cake Photo SCHEMA
+                                              Off The Shelf Order SCHEMA
                                                      PROJECT CAKEZ
  ####################################################################################################################*/
 
  var mongoose = require('mongoose');
 
- customizedCakePhotoSchema = mongoose.Schema({
-     userName:String,
-     serviceProvider: String,
-     image:String,
-     description:String,
-     status:String, //order accepted status
-     deadline:Date,
-     uploadedDate:Date
+ offTheShelfCakeOrderSchema = mongoose.Schema({
+    shopUserName: String,
+    cakeId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'offTheShelfCakes' }],
+    email: String,
+    quantity: String,
+    status: {type: String, default: "unaccepted"}
  });
  
- var customizedCakePhotoDB = mongoose.model('customizedCakePhotos', customizedCakePhotoSchema);
- module.exports = customizedCakePhotoDB;
+ var offTheShelfCakeOrderDB = mongoose.model('offtheshelforders', offTheShelfCakeOrderSchema);
+ module.exports = offTheShelfCakeOrderDB;

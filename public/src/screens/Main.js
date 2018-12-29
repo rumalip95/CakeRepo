@@ -4,6 +4,8 @@ import Scroll from '../components/scroll/Scroll.js'
 import CakeShopsForHomePage from '../components/cakeshops/CakeShopsForHomePage.js'
 import Navbar from '../components/nav_bar/Navbar'
 import Footer from '../components/footer/Footer'
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 
 
@@ -13,6 +15,9 @@ class Main extends Component {
 
 
   render() {
+    if(this.props.type === "serviceProvider"){
+      this.props.history.push("/CakeProviderHome");
+    }
     return (
       <div>
         <div>
@@ -49,5 +54,10 @@ class Main extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    type: state.login.type
+  }
+}
 
-export default Main;
+export default withRouter(connect(mapStateToProps, null)(Main));

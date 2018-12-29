@@ -1,7 +1,7 @@
 const customCakeDB=require("../schemas/CustomCakeSchema");
 const customizedCakePhotoDB=require("../schemas/CustomizedCakePhoto")
 const cakeProviderUploadNewCakeDB=require("../schemas/CakeProviderUploadNewCake");
-
+const offTheShelfCakeOrderDB=require("../schemas/OffTheShelfCakeorder");
 
 class CakeFunctions{
 
@@ -27,8 +27,7 @@ class CakeFunctions{
 
     static saveCustomizedCakePhoto(data,client){
         
-        let newCustomCake=new customizedCakePhotoDB({deadline:data.deadline,description:data.description,uploadedDate:data.uploadDate,image:data.image,userName:client.userData.userName,status:"unaccepted"});
-
+        let newCustomCake=new customizedCakePhotoDB({deadline:data.deadline,description:data.description,uploadedDate:data.uploadDate,image:data.image,userName:client.userData.userName,status:"unaccepted",serviceProvider:data.serviceProvider, serviceProvider: data.shopUserName});
         newCustomCake.save().then(function(savedCustomCake){
             client.emit("Uploaded Cake Image Saved")
         }).catch(function(error){
@@ -62,7 +61,48 @@ class CakeFunctions{
         })
     }
 
+    static getOrdersServiceProvider(client){
+        let res = {
+            uploadPhoto: [],
+            custom: [],
+            offTheShelf: []
+        }
+        customizedCakePhotoDB.find({serviceProvider: client.userData._id }).then(function(foundData){
+            res.uploadPhoto.push(foundData);
 
+            offTheShelfCakeOrderDB.find({shopUserName: client.userData.userName}).populate({path: "cakeId", model: cakeProviderUploadNewCakeDB}).then(function(foundData2){  
+                res.offTheShelf.push(foundData2);
+                customCakeDB.find({userName: client.userData.userName}).then(function(foundData3){
+                    res.custom.push(foundData3);
+                    client.emit("ORDERS_LIST", res);
+                })
+            })
+
+        }).catch(function(err){
+            console.log(err);
+        })
+    }
+
+    static getOrdersClient(client){
+        let res = {
+            uploadPhoto: [],
+            custom: [],
+            offTheShelf: []
+        }
+        customizedCakePhotoDB.find({userName: client.userData.userName }).then(function(foundData){
+            res.uploadPhoto.push(foundData);
+
+            offTheShelfCakeOrderDB.find({email: client.userData.email}).populate({path: "cakeId", model: cakeProviderUploadNewCakeDB}).then(function(foundData2){  
+                res.offTheShelf.push(foundData2);
+                customCakeDB.find({userName: client.userData.userName}).then(function(foundData3){
+                    res.custom.push(foundData3);
+                    client.emit("ORDERS_LIST_USER", res);
+                })
+            })
+        }).catch(function(err){
+            console.log(err);
+        })
+    }
     
     
 }

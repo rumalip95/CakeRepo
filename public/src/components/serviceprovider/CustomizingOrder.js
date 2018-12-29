@@ -12,17 +12,33 @@ import UploadedImageOrderCard from '../order/UploadedImageOrderCard';
 
 
 class CustomizingOrder extends Component {
-    renderCakeArray=()=>{
-        return  cakeData.map(ele => {
+
+    constructor(props){
+        super(props);
+        this.state = {
+          orders: {
+            uploadPhoto: [],
+            custom: [],
+            offTheShelf: []
+          }
+        }
+      }
+    
+      
+
+    renderCakeArray=(type)=>{
+        return this.state.orders[type].map(ele => {
               return (
                 <UploadedImageOrderCard
-                  key={ele.id}
-                  description={ele.description}
+                  id={ele._id}
+                  key={ele._id}
+                  description={ele.description || ele.cakeId[0].text || ""}
                   uploadDate={ele.uploadDate}
                   deadline={ele.deadline}
-                  buttonText={ele.buttonText}
-                  buttonText2={ele.buttonText2}
-                  image={ele.image}
+                  buttonText={"Accept"}
+                  buttonText2={"Decline"}
+                  image={ele.image || ele.cakeId[0].image || ""}
+                  quantity={ele.quantity}
                 />
               )
             })
@@ -59,18 +75,42 @@ class CustomizingOrder extends Component {
         })
     }
 
+    componentDidMount(){
+        this.props.socket.emit("GET_ORDERS");
+        this.props.socket.on("ORDERS_LIST", data => {
+            // console.log(data)
+            let processD = {
+                uploadPhoto: data.uploadPhoto[0] || [], 
+                offTheShelf: data.offTheShelf[0] || [],
+                custom: data.custom[0] || []
+            }
+            console.log(processD)
+          this.setState({
+            orders: processD
+          })
+        })
+      }
+
     
 
   render() {
-    var cakeRenderedArray = this.renderToRow(this.renderCakeArray()); 
+    var uploadedArray = this.renderToRow(this.renderCakeArray("uploadPhoto"));
+    var customArray = this.renderToRow(this.renderCakeArray("custom"));
+    var offTheShelfArray = this.renderToRow(this.renderCakeArray("offTheShelf"));
     return (
       <div>
           <div>
                 <img className="logo" src="/dependencies/pics/newlogo2.png" />
                     <ShopNavbar />
          </div>
-         <div className="col-6">
-                    {cakeRenderedArray}
+         <div className="offset-2 col-8" style={{marginTop: "10px"}}>
+                    {offTheShelfArray.length !== 0 ? offTheShelfArray : (<p>No off the shelf cake orders </p>)}
+         </div>
+         <div className="offset-2 col-8">
+                    {uploadedArray.length !== 0 ? uploadedArray : (<p>No image uploaded cake orders </p>)}
+         </div>
+         <div className="offset-2 col-8">
+                    {customArray.length !== 0 ? customArray : (<p>No custom uploaded cake orders </p>)}
          </div>
         
       </div>
