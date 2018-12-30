@@ -92,7 +92,7 @@ class App extends Component {
               <Route exact path="/CakeShopChoice" component={CakeShopChoice}/> {/*for the customizing part*/}
               {/* <Route exact path="/Customizing" component={Customizing}/> */}
               <Route exact path="/:companyName/Customizing" component={Customizing}/>
-              <Route path="/Customizing/CreateCake" component={this.screens.CreateCake}/>
+              <Route path="/:id/Customizing/CreateCake" component={this.screens.CreateCake}/>
               <Route exact path="/Other" component={Other}/>
               <Route exact path="/CakeShops" component={CakeShops}/>
               <Route exact path="/:id/Customizing/Uploading" component={this.screens.Uploading}/>

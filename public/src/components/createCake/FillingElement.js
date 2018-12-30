@@ -12,8 +12,9 @@ class FillingElement extends Component {
         return"/dependencies/svgs/vanilla_topping.svg";
         break;
       case"Vanilla Flavour":
-        return"/dependencies/svgs/vanillaLayer.svg";
+        return"/dependencies/pics/layers/lemon.svg";
         break;
+      
       default:
         return ""
         break;

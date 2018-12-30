@@ -63,18 +63,7 @@ class CakedCakes extends Component {
           <Navbar />
         </div>
         <div id="backgroundMiddle" style={{ backgroundColor: "#ffd4d5" }} className="col-md-10 offset-md-1">
-          <li id="searchBar">
-            <form className="navbar-form navbar-left" action="/action_page.php">
-              <div className="input-group" style={{ width: "500px", paddingBottom: "20px" }}>
-                <input type="text" class="form-control" placeholder="Search Cake Shops" name="search" />
-                <div className="input-group-btn">
-                  <button className="btn btn-default" type="submit">
-                    <i className="fa fa-search"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </li>
+          
           <div style={{ textAlign: "center", paddingTop: 5, fontFamily: 'Sofia' }}>
             <h1><b>Caked Cakes</b></h1>
           </div>

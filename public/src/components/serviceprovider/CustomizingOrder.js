@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ShopNavbar from '../nav_bar/ShopNavbar'
+import Footer from "../footer/Footer"
 import 'font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
 import { cakeProvidersCakeData } from '../serviceprovider/CakeProvidersCakeData';
@@ -112,7 +113,9 @@ class CustomizingOrder extends Component {
          <div className="offset-2 col-8">
                     {customArray.length !== 0 ? customArray : (<p>No custom uploaded cake orders </p>)}
          </div>
-        
+        <div>
+            <Footer/>
+        </div>
       </div>
     );
   }

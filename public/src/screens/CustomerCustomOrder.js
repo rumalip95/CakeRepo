@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Navbar from '../components/nav_bar/Navbar'
+import Footer from "../components/footer/Footer"
 import UploadedImageOrderCard from '../components/order/UploadedImageOrderCard';
 
 class CustomerCustomOrder extends Component{
@@ -88,6 +89,9 @@ class CustomerCustomOrder extends Component{
       </div>
       <div className="offset-2 col-8">
                   {customArray.length !== 0 ? customArray : (<p>No custom uploaded cake orders </p>)}
+      </div>
+      <div>
+        <Footer/>
       </div>
       </div>
     )
